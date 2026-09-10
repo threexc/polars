@@ -12,7 +12,8 @@ coverage.lcov
 coverage.xml
 profile.json
 polars/vendor
-_polars_runtime*/
+_polars_runtime*/*
+!_polars_runtime*/__init__.py
 
 # OS
 .DS_Store
