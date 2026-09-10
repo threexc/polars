@@ -55,7 +55,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install yq
-        run: pip install yq
+        run: python -m pip install yq
 
       - name: Check runtime versions
         env:
@@ -80,7 +80,7 @@ jobs:
           [[ "$VERSION" == "${COMPAT_VERSION[2]}" ]] || (echo "Incorrect rtcompat version" && exit 1)
 
       - name: Install uv
-        run: pip install uv
+        run: python -m pip install uv
 
       - name: Build sdist and wheel
         run: |
@@ -123,9 +123,9 @@ jobs:
 
       - name: Install yq
         run: |
-          pip install --force-reinstall --no-dependencies dist/polars-*.whl
+          python -m pip install --force-reinstall --no-dependencies dist/polars-*.whl
           rm -rf dist/*
-          pip install yq
+          python -m pip install yq
 
       - name: Create source distribution
         uses: PyO3/maturin-action@v1
@@ -138,7 +138,7 @@ jobs:
 
       - name: Test sdist
         run: |
-          pip install --force-reinstall --verbose dist/*.tar.gz
+          python -m pip install --force-reinstall --verbose dist/*.tar.gz
           python -c 'import polars; polars.show_versions()'
 
       - name: Upload sdist
@@ -287,9 +287,9 @@ jobs:
 
       - name: Install yq
         run: |
-          pip install --force-reinstall --no-dependencies dist/polars-*.whl
+          python -m pip install --force-reinstall --no-dependencies dist/polars-*.whl
           rm -rf dist/*
-          pip install yq
+          python -m pip install yq
 
       - name: Determine CPU features for x86-64
         id: features
@@ -359,7 +359,7 @@ jobs:
         # Testing on entire matrix except musl targets, which are missing on all ubuntu-x images.
         if: endsWith(matrix.target, '-musl') == false
         run: |
-          pip install --force-reinstall --verbose dist/*.whl
+          python -m pip install --force-reinstall --verbose dist/*.whl
           python -c 'import polars; polars.show_versions()' | tee versions.txt
 
           if ! grep -qE "^Build: +$POLARS_BUILD_COMMIT\$" versions.txt; then
